@@ -1,0 +1,245 @@
+#:kivy 2.1.0
+
+WindowManager:
+    # Avail. UI application windows.
+    LanguageSelectWindow:
+    SceneSelectWindow:
+    EmailWindow:
+    RecordWindow:
+    EndWindow:
+
+<LanguageButton@Button>:
+    # Hide buttons behind the flags.
+    background_color: 0, 0, 0, 0
+    
+<LanguageSelectWindow@Screen>:
+    name: "LANG-SELECT"
+
+    AnchorLayout:
+        BoxLayout:
+            # Set flag size, and position.
+            size_hint: None, None
+            width: "750dp"
+            height: "300dp"
+            orientation: "horizontal"
+            spacing: "48dp"
+
+            BoxLayout:
+                # Box with lang. select flag/text.
+                orientation: "vertical"
+                spacing: "-48dp"
+                LanguageButton:
+                    on_release:
+                        # Select Norwegian language, and continue.
+                        app.set_language("NOR")
+                        app.root.current = "SCENE"
+                        root.manager.transition.direction = "left"
+                    Image:
+                        source: "images/languages/NOR.png"
+                        x: self.parent.x
+                        y: self.parent.y + ((self.parent.height / 2) - (self.height / 2))
+                        keep_ratio: True
+                        allow_stretch: False
+                        width: self.parent.width
+                        height: self.parent.height
+
+                Label:
+                    font_size: "32dp"
+                    text: "Norsk"
+
+            BoxLayout:
+                # Box with lang. select flag/text.
+                orientation: "vertical"
+                spacing: "-48dp"
+                LanguageButton:
+                    on_release:
+                        # Select English language, and continue.
+                        app.set_language("ENG")
+                        app.root.current = "SCENE"
+                        root.manager.transition.direction = "left"
+                    Image:
+                        source: "images/languages/ENG.png"
+                        x: self.parent.x
+                        y: self.parent.y + ((self.parent.height / 2) - (self.height / 2))
+                        keep_ratio: True
+                        allow_stretch: False
+                        width: self.parent.width
+                        height: self.parent.height
+                Label:
+                    font_size: "32dp"
+                    text: "English"
+
+            BoxLayout:
+                # Box with lang. select flag/text.
+                orientation: "vertical"
+                spacing: "-48dp"
+                LanguageButton:
+                    on_release:
+                        # Select German language, and continue.
+                        app.set_language("GER")
+                        app.root.current = "SCENE"
+                        root.manager.transition.direction = "left"
+                    Image:
+                        source: "images/languages/GER.png"
+                        x: self.parent.x
+                        y: self.parent.y + ((self.parent.height / 2) - (self.height / 2))
+                        keep_ratio: True
+                        allow_stretch: False
+                        width: self.parent.width
+                        height: self.parent.height
+                Label:
+                    font_size: "32dp"
+                    text: "Deutsch"
+
+<SceneSelectWindow>:
+    name: "SCENE"
+    on_pre_enter: app.set_strings(self)
+    on_enter: root.init_scene_status(self)
+
+    GridLayout:
+        rows: 3
+        
+        Label:
+            # User info. text.
+            id: selectScene
+            font_size: "32dp"
+            font_name: "RobotoMono-Regular"
+            size_hint: 1, None
+            height: "100dp"
+            pos_hint: {"center_x": 0.5}
+
+        SceneSelectStack:
+            # Stack of avail. scenes, where the entire stack is centered on screen.
+            id: stack
+            padding: (self.parent.width - ((self.parent.width // 340) * 340)) // 2, 0
+            orientation: "lr-tb"
+            spacing: "20dp", "20dp"
+
+        GridLayout:
+            # Exit and continue buttons.
+            rows: 1
+            cols: 2
+            size_hint: 1, None
+            height: "120dp"
+            Button:
+                id: exitButton
+                font_size: "32dp"
+                font_name: "RobotoMono-Regular"
+                size_hint: 0.2, 1
+                background_normal: ""
+                background_color: 194/255, 39/255, 39/255, 1
+                on_release:
+                    app.root.current = "LANG-SELECT"
+                    root.manager.transition.direction = "right"
+            Button:
+                id: contButton
+                font_size: "32dp"
+                font_name: "RobotoMono-Regular"
+                size_hint: 0.8, 1
+                background_normal: ""
+                background_color: 39/255, 194/255, 80/255, 1
+                on_release:
+                    app.root.current = "MAIL"
+                    root.manager.transition.direction = "left"
+                
+<EmailWindow>:
+    name: "MAIL"
+    on_pre_enter: app.set_strings(self), root.create_keyboard()
+    on_leave: root.clear_mail()
+
+    GridLayout:
+        rows: 3
+
+        Label:
+            # User info. text.
+            id: mailHeader
+            font_size: "32dp"
+            font_name: "RobotoMono-Regular"
+            size_hint: 1, None
+            height: "100dp"
+            pos_hint: {"center_x": 0.5}
+
+        BoxLayout:
+            size_hint: 1, 1
+            padding: "160dp", 0
+            orientation: "vertical"
+            Widget:
+            TextInput:
+                # Mail input field.
+                id: mail
+                focus: True
+                size_hint: 1, None
+                multiline: False
+                font_size: "42dp"
+                height: "65dp"
+                pos_hint: {"center_y": 0.5}
+                halign: 'center'
+                valign: 'middle'
+                cursor_color: 0, 0, 0, 1
+            Label:
+                # User info. text.
+                id: info
+                size_hint: 1, None
+                font_name: "Roboto-Italic"
+                halign: 'center'
+                font_size: "24dp"
+            Widget:
+
+        GridLayout:
+            # Exit and continue buttons.
+            rows: 1
+            cols: 2
+            size_hint: 1, None
+            height: "120dp"
+            Button:
+                id: exitButton
+                font_size: "32dp"
+                font_name: "RobotoMono-Regular"
+                size_hint: 0.2, 1
+                background_normal: ""
+                background_color: 194/255, 39/255, 39/255, 1
+                on_release:
+                    app.root.current = "SCENE"
+                    root.manager.transition.direction = "right"
+            Button:
+                id: contButton
+                font_size: "32dp"
+                font_name: "RobotoMono-Regular"
+                size_hint: 0.8, 1
+                background_normal: ""
+                background_color: 39/255, 194/255, 80/255, 1
+                on_release:
+                    root.set_mail()
+                    root.manager.transition.direction = "left"
+
+<RecordWindow>:
+    name: "RECORD"
+    on_pre_enter: app.set_strings(self), root.reset_progress_bar()
+    on_enter: root.start_recording()
+
+    ProgressBar:
+        # Recording progress bar.
+        id: progress
+        max: 60
+        size_hint: 0.5, 1
+        pos_hint: {"center_x": 0.5}
+
+    Label:
+        # User info. text.
+        id: recording
+        pos_hint: {"center_y": 0.45}
+        font_size: "20dp"
+        font_name: "RobotoMono-Regular"
+
+<EndWindow>:
+    name: "END"
+    on_pre_enter: app.set_strings(self)
+    on_enter: root.send_video()
+    on_leave: root.reset()
+
+    Label:
+        # User info text.
+        id: sentHint
+        pos_hint: {"center_y": 0.5}
+        font_size: "54dp"
+        font_name: "RobotoMono-Regular"
