@@ -45,14 +45,15 @@ cd src
 python3 main.py
 ```
 However, four things have to be configured before the program will work correctly:
-- The mail server must be configured in the "mail_server_conf.py" file.
-- Enable the OBS Web Server in Menu->Tools->obs-websocket Settings. Set the OBS Web Server password in the "obs_manager_conf.py" file. The password and port number must match.
+- The mail server must be configured in the "mail_sender_conf.py" file.
+- Enable the OBS Web Server in "Menu->Tools->obs-websocket Settings". Set the OBS Web Server password in the "obs_manager_conf.py" file. The password and port number must match. The program (and OBS) will timeout after 45 seconds if not done correctly within time.
 - Configure the camera and monitor settings in OBS. Overwrite the files in "obs_files/settings" to keep the changes on a restart of the application.
 - Add backgrounds and thumbnails (see next section).
 
-Note that OBS should ONLY be launched through the application. This applies especially when configuring profiles and scene collections. The optional (but recommended) remaining tasks are as follows:
+Note that OBS should ONLY be launched through the application. This applies especially when configuring profiles and scene collections. This is to ensure that the correct version of OBS is always being used. If the timeout prevents configuration, OBS may be initially launched with "flatpak run com.obsproject.Studio". The optional (but recommended) remaining tasks are as follows:
 - Set up the machine to auto-login.
 - Set up the application to start up on boot.
+- Enable a watchdog, restarting the program on a crash.
 
 Once done correctly, the machine should not need any user interaction on a reboot.
 
@@ -68,6 +69,8 @@ Below follows some useful information about the application:
 - Video files are only temporary stored, and overwritten on each recording.
 - Recording time can be changed by setting the "OBS_REC_TIME" in the main file.
 - The recording file size must not exceed the max. allowed size by the mail server. File size is determined by factors like recording length, resolution, frame-rate and bit-rate. A too large file will prohibit the video from being sent, displaying an error to the user. If changing any of mentioned factors, please check the size of the "obs_files/recording/recording.mp4" file after a recording is done. Use a 3-4 MB margin.
+- If the OBS Web Server is incorrectly configured the application will timeout after 45 seconds, and yield an error. This also applies if any other connection problems to OBS occur at startup.
+- All "remove.me" files must be replaced with background videos or thumbnails. At least one pair of background assets (video + thumbnail) must exist for the application to operate correctly.
 - The application supports Norwegian, English and German speaking users.
 
 ## Upcoming features:

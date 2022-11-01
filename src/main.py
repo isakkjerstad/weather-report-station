@@ -33,7 +33,7 @@ OBS_REC_TIME = 60
 RESTART_TIME = 10
 
 # Timeout for the OBS connection.
-OBS_TIMEOUT = 8
+OBS_TIMEOUT = 45
 
 # OBS handler object.
 OBS_HANDLER = None
