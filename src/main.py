@@ -280,14 +280,14 @@ class EndWindow(Screen):
         subject = {
             "NOR": "Din film fra Nordnorsk vitensenter",
             "ENG": "Your film from the Science Centre of Northern Norway",
-            "GER": "??"
+            "GER": "Ihr Film vom Wissenschaftszentrum Nordnorwegen"
         }
 
         # Mail body (NOR/ENG/GER).
         body = {
             "NOR": "Her er værreportasjen du spilte inn på Nordnorsk vitensenter.",
             "ENG": "Here is the weather report you recorded at the Science Centre of Northern Norway.",
-            "GER": "??"
+            "GER": "Hier ist der Wetterbericht, den Sie im Wissenschaftszentrum Nordnorwegens aufgezeichnet haben."
         }
 
         # Attempt to send the mail to the user, use set language for subject and body.
@@ -298,7 +298,7 @@ class EndWindow(Screen):
             elif app.LANGUAGE == "ENG":
                 self.ids.sentHint.text = "RECORDING SENT"
             elif app.LANGUAGE == "GER":
-                self.ids.sentHint.text = "??"
+                self.ids.sentHint.text = "AUFZEICHNUNG GESENDET"
         else:
             # Display ERROR response.
             if app.LANGUAGE == "NOR":
@@ -306,7 +306,7 @@ class EndWindow(Screen):
             elif app.LANGUAGE == "ENG":
                 self.ids.sentHint.text = "FAILED TO SEND"
             elif app.LANGUAGE == "GER":
-                self.ids.sentHint.text = "??"
+                self.ids.sentHint.text = "SENDEN FEHLGESCHLAGEN"
 
         # Restart OBS studio.
         try:
@@ -463,22 +463,22 @@ class WeatherReportStationApp(App):
         # German user text.
         elif self.LANGUAGE == "GER":
             if str(widget) == "<Screen name='SCENE'>":
-                widget.ids.selectScene.text = "???"
-                widget.ids.exitButton.text = "???"
-                widget.ids.contButton.text = "???"
+                widget.ids.selectScene.text = "Wählen Sie einen Hintergrund:"
+                widget.ids.exitButton.text = "ABBRECHEN"
+                widget.ids.contButton.text = "MIT AUFZEICHNUNG FORTFAHREN"
             
             if str(widget) == "<Screen name='MAIL'>":
-                widget.ids.mailHeader.text = "???"
-                widget.ids.mail.hint_text = "???"
-                widget.ids.info.text = "???"
-                widget.ids.exitButton.text = "???"
-                widget.ids.contButton.text = "???"
+                widget.ids.mailHeader.text = "Geben Sie Ihre E-Mail-Adresse ein:"
+                widget.ids.mail.hint_text = "benutzername@mail.com"
+                widget.ids.info.text = "Die Aufzeichnung wird an die angegebene Adresse gesendet.\nDie Übertragung dauert 60 Sekunden."
+                widget.ids.exitButton.text = "ZURÜCK"
+                widget.ids.contButton.text = "AUFNAHME BEGINNEN"
 
             if str(widget) == "<Screen name='RECORD'>":
-                widget.ids.recording.text = "???"
+                widget.ids.recording.text = "AUFNAHME LAUFT"
 
             if str(widget) == "<Screen name='END'>":
-                widget.ids.sentHint.text = "???"
+                widget.ids.sentHint.text = "AUFZEICHNUNG WIRD GESENDET"
         
 if __name__ == "__main__":
     ''' Run the main application. '''
