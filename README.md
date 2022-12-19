@@ -1,7 +1,7 @@
 # Weather Report Station:
 This repository contains code for the weather report station in the Northern Norway Science Center exhibition located in Tromsø.
 
-Version: 0.1.0
+Version: 0.1.1
 
 ## Hardware requirements:
 The following hardware is recommended for running the application:
@@ -78,7 +78,7 @@ The following features are planned, but not yet supported:
 Feature | Implemented
 :------------ | :-------------|
 Virtual keyboard | :heavy_check_mark:
-German language | :x:
+German language | :heavy_check_mark:
 Installation script | :x:
 OBS config. utility | :x:
 
