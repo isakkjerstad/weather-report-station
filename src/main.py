@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 
-# Import Python and local modules.
 import os
+
+# Change the working directory to the directory of this file.
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+# Import Python and local modules.
 import re
 import time
 import obs_manager as obs
