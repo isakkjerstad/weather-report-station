@@ -7,6 +7,7 @@ import time
 from PIL import Image
 import obs_manager as obs
 from mail_sender import send_mail
+from languages import STRINGS, OBS_CONN_ERROR
 from obs_manager_conf import BACKGROUND_DIR, RECORDING_PATH
 from config import SCENE_RELPATH, THUMB_SIZE_X, THUMB_SIZE_Y, OBS_REC_TIME, RESTART_TIME, OBS_TIMEOUT
 
@@ -36,7 +37,7 @@ class SceneSelectWindow(Screen):
         try:
             activeSceneName = OBS_HANDLER.get_current_background().split(".")[0]
         except:
-            print("OBS connection error: OBS not responding!")
+            print(OBS_CONN_ERROR)
             quit()
 
         # Search all avail. scenes in the stack.
@@ -88,7 +89,7 @@ class SceneSelectStack(StackLayout):
                 try:
                     OBS_HANDLER.set_background(video)
                 except:
-                    print("OBS connection error: OBS not responding!")
+                    print(OBS_CONN_ERROR)
                     quit()
 
         # Set a box around the new active scene button.
@@ -223,7 +224,7 @@ class RecordWindow(Screen):
         try:
             OBS_HANDLER.start_recording()
         except:
-            print("OBS connection error: OBS not responding!")
+            print(OBS_CONN_ERROR)
             quit()
 
         # Update the recording progress each second.
@@ -241,7 +242,7 @@ class RecordWindow(Screen):
             try:
                 OBS_HANDLER.stop_recording()
             except:
-                print("OBS connection error: OBS not responding!")
+                print(OBS_CONN_ERROR)
                 quit()
 
             # Switch to the end screen.
@@ -262,46 +263,15 @@ class EndWindow(Screen):
         recFile = os.listdir(RECORDING_PATH)[0]
         recPath = RECORDING_PATH + "/" + recFile
 
-        # Mail subject (NOR/ENG/GER).
-        subject = {
-            "NOR": "Din film fra Nordnorsk vitensenter",
-            "ENG": "Your film from the Science Centre of Northern Norway",
-            "GER": "Ihr Film vom Wissenschaftszentrum Nordnorwegen"
-        }
-
-        # Mail body (NOR/ENG/GER).
-        body = {
-            "NOR": "Her er værreportasjen du spilte inn på Nordnorsk vitensenter.",
-            "ENG": "Here is the weather report you recorded at the Science Centre of Northern Norway.",
-            "GER": "Hier ist der Wetterbericht, den Sie im Wissenschaftszentrum Nordnorwegens aufgezeichnet haben."
-        }
-
         # Attempt to send the mail to the user, use set language for subject and body.
-        if send_mail(app.USER_MAIL, subject[app.LANGUAGE], body[app.LANGUAGE], recPath):
+        if send_mail(app.USER_MAIL, STRINGS[app.LANGUAGE]["mail-subject"], STRINGS[app.LANGUAGE]["mail-body"], recPath):
             # Display OK response.
-            if app.LANGUAGE == "NOR":
-                self.ids.sentHint.text = "OPPTAK SENDT"
-            elif app.LANGUAGE == "ENG":
-                self.ids.sentHint.text = "RECORDING SENT"
-            elif app.LANGUAGE == "GER":
-                self.ids.sentHint.text = "AUFZEICHNUNG GESENDET"
+            self.ids.sentHint.text = STRINGS[app.LANGUAGE]["recording-sent"]
         else:
             # Display ERROR response.
-            if app.LANGUAGE == "NOR":
-                self.ids.sentHint.text = "SENDING FEILET"
-            elif app.LANGUAGE == "ENG":
-                self.ids.sentHint.text = "FAILED TO SEND"
-            elif app.LANGUAGE == "GER":
-                self.ids.sentHint.text = "SENDEN FEHLGESCHLAGEN"
-
-        # Restart OBS studio.
-        try:
-            OBS_HANDLER.restart(OBS_TIMEOUT)
-        except:
-            print("OBS connection error: OBS not responding!")
-            quit()
+            self.ids.sentHint.text = STRINGS[app.LANGUAGE]["sending-failed"]
         
-        # Wait, before restarting.
+        # Wait, before restarting UI.
         Clock.schedule_once(self.go_to_start_screen)
 
     def go_to_start_screen(self, *largs):
@@ -373,7 +343,7 @@ class WeatherReportStationApp(App):
     ''' Kivy Weather Report Station UI app.'''
 
     # Set title of the UI window.
-    title = "Weather Report Station"
+    title = UI_TITLE
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -406,65 +376,23 @@ class WeatherReportStationApp(App):
         Use "on_pre_enter" in the "kv" file to set upcoming content.
         '''
 
-        # Norwegian user text.
-        if self.LANGUAGE == "NOR":
-            if str(widget) == "<Screen name='SCENE'>":
-                widget.ids.selectScene.text = "Velg en bakgrunn:"
-                widget.ids.exitButton.text = "AVBRYT"
-                widget.ids.contButton.text = "FORTSETT TIL OPPTAK"
+        if str(widget) == "<Screen name='SCENE'>":
+            widget.ids.selectScene.text = STRINGS[self.LANGUAGE]["select-scene"]
+            widget.ids.exitButton.text = STRINGS[self.LANGUAGE]["exit-button-pg2"]
+            widget.ids.contButton.text = STRINGS[self.LANGUAGE]["cont-button-pg2"]
 
-            if str(widget) == "<Screen name='MAIL'>":
-                widget.ids.mailHeader.text = "Skriv inn din e-post addresse:"
-                widget.ids.mail.hint_text = "brukernavn@mail.no"
-                widget.ids.info.text = "Opptaket blir sendt til den angitte adressen.\nSendingen varer i 60 sekunder."
-                widget.ids.exitButton.text = "TILBAKE"
-                widget.ids.contButton.text = "START OPPTAK"
+        if str(widget) == "<Screen name='MAIL'>":
+            widget.ids.mailHeader.text = STRINGS[self.LANGUAGE]["mail-header"]
+            widget.ids.mail.hint_text = STRINGS[self.LANGUAGE]["mail-hint"]
+            widget.ids.info.text = STRINGS[self.LANGUAGE]["mail-info"]
+            widget.ids.exitButton.text = STRINGS[self.LANGUAGE]["exit-button-pg3"]
+            widget.ids.contButton.text = STRINGS[self.LANGUAGE]["cont-button-pg3"]
 
-            if str(widget) == "<Screen name='RECORD'>":
-                widget.ids.recording.text = "OPPTAK PÅGÅR"
+        if str(widget) == "<Screen name='RECORD'>":
+            widget.ids.recording.text = STRINGS[self.LANGUAGE]["recording"]
 
-            if str(widget) == "<Screen name='END'>":
-                widget.ids.sentHint.text = "SENDER OPPTAKET"
-
-        # English user text.
-        elif self.LANGUAGE == "ENG":
-            if str(widget) == "<Screen name='SCENE'>":
-                widget.ids.selectScene.text = "Select a background:"
-                widget.ids.exitButton.text = "CANCEL"
-                widget.ids.contButton.text = "CONTINUE TO RECORDING"
-
-            if str(widget) == "<Screen name='MAIL'>":
-                widget.ids.mailHeader.text = "Enter your e-mail address:"
-                widget.ids.mail.hint_text = "username@mail.com"
-                widget.ids.info.text = "The recording will be sent to the given address.\nThe broadcast lasts for 60 seconds."
-                widget.ids.exitButton.text = "RETURN"
-                widget.ids.contButton.text = "START RECORDING"
-
-            if str(widget) == "<Screen name='RECORD'>":
-                widget.ids.recording.text = "RECORDING IN PROGRESS"
-
-            if str(widget) == "<Screen name='END'>":
-                widget.ids.sentHint.text = "SENDING THE RECORDING"
-
-        # German user text.
-        elif self.LANGUAGE == "GER":
-            if str(widget) == "<Screen name='SCENE'>":
-                widget.ids.selectScene.text = "Wählen Sie einen Hintergrund:"
-                widget.ids.exitButton.text = "ABBRECHEN"
-                widget.ids.contButton.text = "MIT AUFZEICHNUNG FORTFAHREN"
-            
-            if str(widget) == "<Screen name='MAIL'>":
-                widget.ids.mailHeader.text = "Geben Sie Ihre E-Mail-Adresse ein:"
-                widget.ids.mail.hint_text = "benutzername@mail.com"
-                widget.ids.info.text = "Die Aufzeichnung wird an die angegebene Adresse gesendet.\nDie Übertragung dauert 60 Sekunden."
-                widget.ids.exitButton.text = "ZURÜCK"
-                widget.ids.contButton.text = "AUFNAHME BEGINNEN"
-
-            if str(widget) == "<Screen name='RECORD'>":
-                widget.ids.recording.text = "AUFNAHME LAUFT"
-
-            if str(widget) == "<Screen name='END'>":
-                widget.ids.sentHint.text = "AUFZEICHNUNG WIRD GESENDET"
+        if str(widget) == "<Screen name='END'>":
+            widget.ids.sentHint.text = STRINGS[self.LANGUAGE]["sending"]
         
 if __name__ == "__main__":
     ''' Run the main application. '''
