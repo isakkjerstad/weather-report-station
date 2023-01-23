@@ -7,7 +7,7 @@ import time
 from PIL import Image
 import obs_manager as obs
 from mail_sender import send_mail
-from languages import STRINGS, OBS_CONN_ERROR
+from languages import STRINGS, OBS_CONN_ERROR, UI_TITLE
 from obs_manager_conf import BACKGROUND_DIR, RECORDING_PATH
 from config import SCENE_RELPATH, THUMB_SIZE_X, THUMB_SIZE_Y, OBS_REC_TIME, RESTART_TIME, OBS_TIMEOUT
 
