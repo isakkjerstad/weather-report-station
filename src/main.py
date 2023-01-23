@@ -4,17 +4,17 @@
 import os
 import re
 import time
-from PIL import Image
 import obs_manager as obs
 from mail_sender import send_mail
+from PIL import Image, UnidentifiedImageError
 from languages import STRINGS, OBS_CONN_ERROR, UI_TITLE
 from obs_manager_conf import BACKGROUND_DIR, RECORDING_PATH
 from config import SCENE_RELPATH, THUMB_SIZE_X, THUMB_SIZE_Y, OBS_REC_TIME, RESTART_TIME, OBS_TIMEOUT
 
 # Import Kivy modules.
 import kivy
-from kivy.clock import Clock
 from kivy.app import App
+from kivy.clock import Clock
 from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.graphics import Line, Color
@@ -319,7 +319,11 @@ def setup():
     for image in os.listdir(SCENE_RELPATH):
 
         # Get image dimensions, i.e. the width and height.
-        imgSizeX, imgSizeY = Image.open(SCENE_RELPATH + image).size
+        try:
+            imgSizeX, imgSizeY = Image.open(SCENE_RELPATH + image).size
+        except UnidentifiedImageError:               
+            print(f"Error: File '{image}', is not vaild! Only '.png' files are valid.")
+            quit()
 
         # Print warning upon wrong image dimensions.
         if imgSizeX != THUMB_SIZE_X and imgSizeY != THUMB_SIZE_Y:
