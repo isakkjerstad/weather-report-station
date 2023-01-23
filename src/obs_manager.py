@@ -16,6 +16,7 @@ class flatpak():
         '''
         Start a given flatpak application with flatpak run.
         '''
+        
         self.app = app
         self.process = subprocess.Popen(['/bin/flatpak', 'run', self.app], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
@@ -23,6 +24,7 @@ class flatpak():
         '''
         Restarts the flatpak application using flatpak kill and flatpak run.
         '''
+        
         subprocess.Popen(['/bin/flatpak', 'kill', self.app])
         self.process = subprocess.Popen(['/bin/flatpak', 'run', self.app])
 
@@ -30,12 +32,14 @@ class flatpak():
         '''
         When the flatpak object goes out of scope. Kill the flatpak process.
         '''
+        
         subprocess.Popen(['/bin/flatpak', 'kill', self.app])
 
 class obs_manager():
     '''
     Utility for managing OBS.
     '''
+    
     def __init__(self, timeout):
         self.prepare()
         self.obs_process = flatpak('com.obsproject.Studio')
@@ -61,7 +65,7 @@ class obs_manager():
             shutil.rmtree(conf.profile_destination_path())
 
         if os.path.exists(conf.OBS_PROFILE_SRC):
-            shutil.copytree(conf.OBS_PROFILE_SRC, conf.profile_destination_path())    
+            shutil.copytree(conf.OBS_PROFILE_SRC, conf.profile_destination_path())
         else:
             print(f"ERROR: Can't find {conf.OBS_PROFILE_SRC}")
             quit()
@@ -165,6 +169,7 @@ class obs_manager():
         # OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NEXT #
         # OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PREVIOUS #
         '''
+        
         obs.conn.trigger_media_input_action(conf.OBS_BACKGROUND_SOURCE_NAME, "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART")
 
     def get_background_cursor(self):
