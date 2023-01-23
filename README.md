@@ -67,7 +67,7 @@ If a background does not have a correct thumbnail, it will cause an error. Likew
 ## Notes:
 Below follows some useful information about the application:
 - Video files are only temporary stored, and overwritten on each recording.
-- Recording time can be changed by setting the "OBS_REC_TIME" in the main file.
+- Recording time can be changed by setting the "OBS_REC_TIME" in the "config.py" file.
 - The recording file size must not exceed the max. allowed size by the mail server. File size is determined by factors like recording length, resolution, frame-rate and bit-rate. A too large file will prohibit the video from being sent, displaying an error to the user. If changing any of mentioned factors, please check the size of the "obs_files/recording/recording.mp4" file after a recording is done. Use a 3-4 MB margin.
 - If the OBS Web Server is incorrectly configured the application will timeout after 45 seconds, and yield an error. This also applies if any other connection problems to OBS occur at startup.
 - All "remove.me" files must be replaced with background videos or thumbnails. At least one pair of background assets (video + thumbnail) must exist for the application to operate correctly.

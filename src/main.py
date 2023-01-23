@@ -8,6 +8,7 @@ from PIL import Image
 import obs_manager as obs
 from mail_sender import send_mail
 from obs_manager_conf import BACKGROUND_DIR, RECORDING_PATH
+from config import SCENE_RELPATH, THUMB_SIZE_X, THUMB_SIZE_Y, OBS_REC_TIME, RESTART_TIME, OBS_TIMEOUT
 
 # Import Kivy modules.
 import kivy
@@ -19,21 +20,6 @@ from kivy.graphics import Line, Color
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
-
-# Path to the scene thumbnails.
-SCENE_RELPATH = "images/scenes/"
-
-# Supported thumbnail image size.
-THUMB_SIZE_X = 320; THUMB_SIZE_Y = 180
-
-# Recording time in seconds.
-OBS_REC_TIME = 60
-
-# Time in idle after sent mail.
-RESTART_TIME = 10
-
-# Timeout for the OBS connection.
-OBS_TIMEOUT = 45
 
 # OBS handler object.
 OBS_HANDLER = None
