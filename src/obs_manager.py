@@ -106,6 +106,9 @@ class obs_manager():
             except:
                 pass
 
+        # This is done to deliberately cause an Exception if it failed to connect.
+        print(f"OBS version: {self.conn.get_version()}")
+
     def get_scene_collections(self):
         return self.conn.get_scene_collection_list().scene_collections
 

@@ -327,8 +327,9 @@ def setup():
 
     # Connect to OBS.
     global OBS_HANDLER
-    OBS_HANDLER = obs.obs_manager(OBS_TIMEOUT)
-    if OBS_HANDLER == None:
+    try:
+        OBS_HANDLER = obs.obs_manager(OBS_TIMEOUT)
+    except:
         print("OBS connection failed: Check OBS websocket settings!")
         quit()
 
@@ -403,4 +404,5 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         quit()
     finally:
-        OBS_HANDLER.obs_process.__del__()
+        if OBS_HANDLER:
+            OBS_HANDLER.obs_process.__del__()
