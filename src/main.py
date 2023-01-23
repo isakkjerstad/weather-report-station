@@ -341,6 +341,10 @@ def setup():
         print("OBS connection failed: Check OBS websocket settings!")
         quit()
 
+    # Set a default launch/start video.
+    startVideo = os.listdir(BACKGROUND_DIR)[0]
+    OBS_HANDLER.set_background(startVideo)
+
     # Config. kivy screen settings.
     Window.size = (1100, 800)
     Window.minimum_width, Window.minimum_height = Window.size
