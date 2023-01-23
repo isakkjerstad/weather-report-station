@@ -13,7 +13,7 @@ STRINGS = {
         "cont-button-pg2":  "FORTSETT TIL OPPTAK",
 
         "mail-header":      "Skriv inn din e-post addresse:",
-        "mail-hint":        "brukernavn@mail.no",
+        "mail-hint":        "eksempel@email.no",
         "mail-info":        f"Opptaket blir sendt til den angitte adressen.\nSendingen varer i {RT} sekunder.",
         "exit-button-pg3":  "TILBAKE",
         "cont-button-pg3":  "START OPPTAK",
@@ -34,7 +34,7 @@ STRINGS = {
         "cont-button-pg2":  "CONTINUE TO RECORDING",
 
         "mail-header":      "Enter your e-mail address:",
-        "mail-hint":        "username@mail.com",
+        "mail-hint":        "example@email.com",
         "mail-info":        f"The recording will be sent to the given address.\nThe broadcast lasts for {RT} seconds.",
         "exit-button-pg3":  "RETURN",
         "cont-button-pg3":  "START RECORDING",
@@ -55,7 +55,7 @@ STRINGS = {
         "cont-button-pg2":  "MIT AUFZEICHNUNG FORTFAHREN",
 
         "mail-header":      "Geben Sie Ihre E-Mail-Adresse ein:",
-        "mail-hint":        "benutzername@mail.com",
+        "mail-hint":        "exempel@email.de",
         "mail-info":        f"Die Aufzeichnung wird an die angegebene Adresse gesendet.\nDie Übertragung dauert {RT} Sekunden.",
         "exit-button-pg3":  "ZURÜCK",
         "cont-button-pg3":  "AUFNAHME BEGINNEN",
