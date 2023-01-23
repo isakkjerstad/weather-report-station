@@ -42,12 +42,6 @@ class obs_manager():
         self.connect_to_obs(timeout)
         self.setup()
 
-    def restart(self, timeout):
-        self.prepare()
-        self.obs_process = flatpak('com.obsproject.Studio')
-        self.connect_to_obs(timeout)
-        self.setup()
-
     def prepare(self):
         '''
         Done before starting OBS.
@@ -115,9 +109,6 @@ class obs_manager():
     def get_scene_collections(self):
         return self.conn.get_scene_collection_list().scene_collections
 
-    def get_current_scene_collection(self):
-        return self.conn.get_scene_collection_list().current_scene_collection_name
-
     def get_profiles(self):
         return self.conn.get_profile_list().profiles
 
@@ -179,7 +170,7 @@ class obs_manager():
 if __name__ == "__main__":
     ''' Run simple demo. '''
 
-    obs = obs_manager()
+    obs = obs_manager(100)
 
     while(True):
         try:
