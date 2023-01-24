@@ -22,6 +22,7 @@ After the automatic installation is completed you still have to configure:
 - Configuration files (at least 'obs_manager_conf.py' and 'mail_sender_conf.py').
 - OBS settings for camera and monitor placement (overwrite the files in 'obs_files/settings').
 - New backgrounds (see the 'Add new backgrounds' section below).
+
 If this repository is cloned using 'git clone' you may update by running 'update.sh'. Updating should
 preserve all local changes to e.g. the configuration files.
 
