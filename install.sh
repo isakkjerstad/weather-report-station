@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Installing ..."
+
 sudo apt install -y git
 sudo apt install -y python3-pip
 sudo pip install kivy
@@ -10,7 +12,11 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install flathub com.obsproject.Studio
 flatpak run com.obsproject.Studio
 
+echo ""
+
 cd src
 python3 install_desktop_file.py
 
+echo "After a reboot, remember to set the configuration files!"
+read -p "Press enter to reboot ..."
 reboot

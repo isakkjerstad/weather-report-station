@@ -1,7 +1,7 @@
 # Weather Report Station:
 This repository contains code for the weather report station in the Northern Norway Science Center exhibition located in Tromsø.
 
-Version: 0.1.1
+Version: 0.1.2
 
 ## Hardware requirements:
 The following hardware is recommended for running the application:
@@ -14,7 +14,18 @@ The following hardware is recommended for running the application:
 - An external microphone, or just the inbuilt web-cam microphone.
 - A mail server (e.g. a gmail account).
 
-## Installation:
+## Automatic installation and updating:
+Running the script 'install.sh' with 'sudo' privileges will get all dependencies and install the application.
+You should set the application 'Weather Report Station' to auto-start on a user with auto-login enabled.
+After the automatic installation is completed you still have to configure:
+- Device and drivers (network, touch screen, camera).
+- Configuration files (at least 'obs_manager_conf.py' and 'mail_sender_conf.py').
+- OBS settings for camera and monitor placement (overwrite the files in 'obs_files/settings').
+- New backgrounds (see the 'Add new backgrounds' section below).
+If this repository is cloned using 'git clone' you may update by running 'update.sh'. Updating should
+preserve all local changes to e.g. the configuration files.
+
+## Manual installation:
 Follow the guide below to get the application running:
 - Connect the camera, monitors, microphone and other hardware to the host computer.
 - Install the latest [Ubuntu LTS](https://ubuntu.com/download/desktop) (22.04.1 is supported).
@@ -72,6 +83,13 @@ Below follows some useful information about the application:
 - If the OBS Web Server is incorrectly configured the application will timeout after 45 seconds, and yield an error. This also applies if any other connection problems to OBS occur at startup.
 - All "remove.me" files must be replaced with background videos or thumbnails. At least one pair of background assets (video + thumbnail) must exist for the application to operate correctly.
 - The application supports Norwegian, English and German speaking users.
+- You may run "install_desktop_file" to create a new desktop file.
+- All strings in the UI is stored in the "languages.py" file.
+
+## Elo Multiple Touchscreen Linux Driver:
+If using a Elo touch screen, you may follow this [installation guide](http://media.elotouch.com/Support/files/install/Elo-Linux-ST-USB-Driver-v4.3.1_Installation-Instructions.txt) in
+order to set up and calibrate your display. During calibration you should disable all other screens. If using multiple screens, you may
+find this [support article](https://askubuntu.com/questions/51445/how-do-i-calibrate-a-touchscreen-on-a-dual-monitor-system) helpful.
 
 ## Upcoming features:
 The following features are planned, but not yet supported:
@@ -79,7 +97,7 @@ Feature | Implemented
 :------------ | :-------------|
 Virtual keyboard | :heavy_check_mark:
 German language | :heavy_check_mark:
-Installation script | :x:
+Installation script | :heavy_check_mark:
 OBS config. utility | :x:
 
 Please report other missing features, requests and bugs as issues. New releases will be pushed as soon as possible. Only issues from the Northern Norway Science Center will be prioritized.
