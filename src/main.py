@@ -8,12 +8,14 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # Import Python and local modules.
 import re
 import time
+import datetime
+import urllib.request
 import obs_manager as obs
 from mail_sender import send_mail
 from PIL import Image, UnidentifiedImageError
 from languages import STRINGS, OBS_CONN_ERROR, UI_TITLE
 from obs_manager_conf import BACKGROUND_DIR, RECORDING_PATH
-from config import SCENE_RELPATH, THUMB_SIZE_X, THUMB_SIZE_Y, OBS_REC_TIME, RESTART_TIME, OBS_TIMEOUT
+from config import SCENE_RELPATH, THUMB_SIZE_X, THUMB_SIZE_Y, OBS_REC_TIME, RESTART_TIME, OBS_TIMEOUT, LOGFILE_PATH
 
 # Import Kivy modules.
 import kivy
@@ -28,6 +30,15 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 # OBS handler object.
 OBS_HANDLER = None
+
+def network_check(url = "http://google.com"):
+    ''' Validate a working network connection. '''
+
+    try:
+        urllib.request.urlopen(url)
+        return True
+    except:
+        return False
 
 class WindowManager(ScreenManager):
     ''' Utility class for window transitions and management. '''
@@ -267,13 +278,24 @@ class EndWindow(Screen):
         recFile = os.listdir(RECORDING_PATH)[0]
         recPath = RECORDING_PATH + "/" + recFile
 
+        # Sending status used for logging.
+        success = False
+
         # Attempt to send the mail to the user, use set language for subject and body.
         if send_mail(app.USER_MAIL, STRINGS[app.LANGUAGE]["mail-subject"], STRINGS[app.LANGUAGE]["mail-body"], recPath):
             # Display OK response.
             self.ids.sentHint.text = STRINGS[app.LANGUAGE]["recording-sent"]
+            success = True
         else:
             # Display ERROR response.
             self.ids.sentHint.text = STRINGS[app.LANGUAGE]["sending-failed"]
+            print("Warning: Sending failed, wrong email address or mail configuration settings!")
+
+        # Log anonymous information.
+        with open(LOGFILE_PATH, "a") as logfile:
+            currentTime = datetime.datetime.now()
+            domain = app.USER_MAIL.split("@")[1].split(".")
+            logfile.write(f"{currentTime},{success},@{domain[0]},.{domain[1]},{recFile}\n")
         
         # Wait, before restarting UI.
         Clock.schedule_once(self.go_to_start_screen)
@@ -340,6 +362,10 @@ def setup():
     except:
         print("OBS connection failed: Check OBS websocket settings!")
         quit()
+
+    # Check for a working network connection.
+    if not network_check():
+        print("Warning: Machine not connected to the internet!")
 
     # Set a default launch/start video.
     startVideo = os.listdir(BACKGROUND_DIR)[0]

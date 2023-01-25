@@ -16,3 +16,6 @@ RESTART_TIME = 10
 
 # Timeout for the OBS connection.
 OBS_TIMEOUT = 45
+
+# Relative path to the anonymized log file.
+LOGFILE_PATH = "obs_files/recording/logfile.txt"

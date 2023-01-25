@@ -15,7 +15,7 @@ The following hardware is recommended for running the application:
 - A mail server (e.g. a gmail account).
 
 ## Automatic installation and updating:
-Running the script 'install.sh' with 'sudo' privileges will get all dependencies and install the application.
+Running the script 'install.sh' will get all dependencies and install the application.
 You should set the application 'Weather Report Station' to auto-start on a user with auto-login enabled.
 After the automatic installation is completed you still have to configure:
 - Device and drivers (network, touch screen, camera).
