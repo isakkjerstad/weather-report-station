@@ -19,3 +19,6 @@ OBS_TIMEOUT = 45
 
 # Relative path to the anonymized log file.
 LOGFILE_PATH = "obs_files/recording/logfile.txt"
+
+# Send log file to this address on start-up.
+LOG_MAIL = "<replace-me>"

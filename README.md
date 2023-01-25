@@ -86,6 +86,7 @@ Below follows some useful information about the application:
 - The application supports Norwegian, English and German speaking users.
 - You may run "install_desktop_file" to create a new desktop file.
 - All strings in the UI is stored in the "languages.py" file.
+- Send logfile on boot by setting "LOG_MAIL" in the "config.py" file.
 
 ## Elo Multiple Touchscreen Linux Driver:
 If using a Elo touch screen, you may follow this [installation guide](http://media.elotouch.com/Support/files/install/Elo-Linux-ST-USB-Driver-v4.3.1_Installation-Instructions.txt) in

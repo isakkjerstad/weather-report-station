@@ -15,7 +15,7 @@ from mail_sender import send_mail
 from PIL import Image, UnidentifiedImageError
 from languages import STRINGS, OBS_CONN_ERROR, UI_TITLE
 from obs_manager_conf import BACKGROUND_DIR, RECORDING_PATH
-from config import SCENE_RELPATH, THUMB_SIZE_X, THUMB_SIZE_Y, OBS_REC_TIME, RESTART_TIME, OBS_TIMEOUT, LOGFILE_PATH
+from config import SCENE_RELPATH, THUMB_SIZE_X, THUMB_SIZE_Y, OBS_REC_TIME, RESTART_TIME, OBS_TIMEOUT, LOGFILE_PATH, LOG_MAIL
 
 # Import Kivy modules.
 import kivy
@@ -363,9 +363,12 @@ def setup():
         print("OBS connection failed: Check OBS websocket settings!")
         quit()
 
-    # Check for a working network connection.
+    # Check for a working network connection, and send logfile.
     if not network_check():
         print("Warning: Machine not connected to the internet!")
+    elif os.path.isfile(LOGFILE_PATH):
+        if send_mail(LOG_MAIL, f"{UI_TITLE} Log", f"{datetime.datetime.now()}", LOGFILE_PATH):
+            print(f"Note: '{LOGFILE_PATH}' sent to '{LOG_MAIL}'.")
 
     # Set a default launch/start video.
     startVideo = os.listdir(BACKGROUND_DIR)[0]
