@@ -8,6 +8,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # Import Python and local modules.
 import re
 import time
+import socket
 import datetime
 import urllib.request
 import obs_manager as obs
@@ -293,9 +294,18 @@ class EndWindow(Screen):
 
         # Log anonymous information.
         with open(LOGFILE_PATH, "a") as logfile:
+
+            sceneName = None
             currentTime = datetime.datetime.now()
             domain = app.USER_MAIL.split("@")[1].split(".")
-            logfile.write(f"{currentTime},{success},@{domain[0]},.{domain[1]},{recFile}\n")
+            ipAddr = socket.gethostbyname(socket.gethostname())
+
+            try:
+                sceneName = OBS_HANDLER.get_current_background().split(".")[0]
+            except:
+                pass
+            
+            logfile.write(f"{currentTime},{success},@{domain[0]},.{domain[1]},{sceneName},{ipAddr}\n")
         
         # Wait, before restarting UI.
         Clock.schedule_once(self.go_to_start_screen)
@@ -367,7 +377,7 @@ def setup():
     if not network_check():
         print("Warning: Machine not connected to the internet!")
     elif os.path.isfile(LOGFILE_PATH):
-        if send_mail(LOG_MAIL, f"{UI_TITLE} Log", f"{datetime.datetime.now()}", LOGFILE_PATH):
+        if send_mail(LOG_MAIL, f"{UI_TITLE} Log", f"Time: {datetime.datetime.now()}", LOGFILE_PATH):
             print(f"Note: '{LOGFILE_PATH}' sent to '{LOG_MAIL}'.")
 
     # Set a default launch/start video.
