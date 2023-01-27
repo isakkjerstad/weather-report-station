@@ -385,6 +385,8 @@ def setup():
     OBS_HANDLER.set_background(startVideo)
 
     # Config. kivy screen settings.
+    Window.position = "custom"
+    Window.left = 0
     Window.size = (1100, 800)
     Window.minimum_width, Window.minimum_height = Window.size
     Window.clearcolor = (0.1, 0.1, 0.1, 1)
